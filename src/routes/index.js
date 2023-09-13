@@ -5,9 +5,7 @@ const routes = express.Router();
 const personController = require("../controllers/personController");
 
 // get all persons
-routes.get("/", (req, res) => {
-  res.send("app is running well.");
-});
+routes.get("/", personController.getAllPersons);
 
 // get just one person
 routes.get("/:id", personController.getOnePerson);
