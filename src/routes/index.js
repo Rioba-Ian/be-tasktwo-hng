@@ -13,8 +13,10 @@ routes.get("/:id", personController.getOnePerson);
 // create a single person
 routes.post("/", personController.createPerson);
 
-// add delete route
+// delete route
+routes.delete("/:id", personController.deletePerson);
 
-// add update route
+// update route
+routes.put("/:id", personController.updatePerson);
 
 module.exports = routes;

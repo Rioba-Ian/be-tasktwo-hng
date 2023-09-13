@@ -57,7 +57,21 @@ const createPerson = async (req, res) => {
   }
 };
 
-const deletePerson = async (req, res) => {};
+const deletePerson = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const result = await db.query("DELETE FROM Persons WHERE id = $1", [id]);
+    if (result.rowCount > 0) {
+      res.status(200).json({ msg: "Success" });
+    } else {
+      res.status(404).json(`Person with id ${id} not found.`);
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Internal server error." });
+  }
+};
 
 const updatePerson = async (req, res) => {};
 
@@ -65,4 +79,6 @@ module.exports = {
   createPerson,
   getOnePerson,
   getAllPersons,
+  deletePerson,
+  updatePerson,
 };
