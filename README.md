@@ -38,7 +38,7 @@ Run tests with `npm test`.
 
 ## Deployment
 
-Deploy to your preferred hosting platform following their specific instructions.
+The API is deployed on Render at https://personservicenode.onrender.com/api.
 
 ## Contributing
 
