@@ -73,7 +73,59 @@ const deletePerson = async (req, res) => {
   }
 };
 
-const updatePerson = async (req, res) => {};
+const updatePerson = async (req, res) => {
+  const { id } = req.params;
+
+  const { name, email, address } = req.body;
+
+  if (!name && !email && !address) {
+    res.status(400).json({
+      error:
+        "At least one of the fields is required to do an update: name, email and address",
+    });
+  }
+
+  let query = "UPDATE Persons SET";
+  let values = [];
+  let placeholders = [];
+
+  if (name) {
+    values.push(name);
+    placeholders.push(`name = $${values.length}`);
+  }
+
+  if (email) {
+    values.push(email);
+    placeholders.push(`email = $${values.length}`);
+  }
+
+  if (address) {
+    values.push(address);
+    placeholders.push(`address = $${values.length}`);
+  }
+
+  console.log(query);
+  query +=
+    " " +
+    placeholders.join(", ") +
+    " WHERE id = $" +
+    (values.length + 1) +
+    " RETURNING *";
+  values.push(id);
+  console.log(query);
+
+  try {
+    const result = await db.query(query, values);
+    if (result.rowCount > 0) {
+      res.status(200).json(result.rows[0]);
+    } else {
+      res.status(404).json(`Person with id: ${id} not found.`);
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Internal server error." });
+  }
+};
 
 module.exports = {
   createPerson,
