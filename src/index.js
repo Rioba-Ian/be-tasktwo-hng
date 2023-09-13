@@ -18,6 +18,10 @@ app.use(bodyParser.json());
 
 app.use("/api", apiRoutes);
 
+app.get("/", (req, res) => {
+  res.sendStatus(200);
+});
+
 app.listen(PORT, () => {
   console.log(`Server listening on port: ${PORT}`);
 });
